@@ -69,7 +69,7 @@ function render(){
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
           <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
           <dt>샤오홍슈</dt><dd>${(it.xhs||"").split("/").map(k=>k.trim()).filter(Boolean).map(k=>`<span class="zh">${esc(k)}<button class="copy" type="button" data-c="${esc(k)}">복사</button></span>`).join(" ")}</dd>
-          ${it.product_no?`<dt>상품번호</dt><dd>${esc(it.product_no)}</dd>`:""}
+          ${it.product_no?`<dt>인포크 등록명</dt><dd>${esc(it.product_no)}<button class="copy" type="button" data-c="${esc(it.product_no)}">복사</button></dd>`:""}
           <dt>소스 고를 때</dt><dd>${esc(it.source_tip)}</dd>
           <dt>근거</dt><dd>${esc(it.basis)}</dd>
         </dl>
