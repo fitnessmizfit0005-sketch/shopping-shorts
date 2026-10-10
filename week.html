@@ -84,7 +84,7 @@ function render(){
         ${STAGE(it)>=3?`<div class="actions up3">
           <span class="lbl">업로드</span>
           ${["인스타","유튜브","틱톡"].map(p=>`<label class="found"><input type="checkbox" id="up-${esc(it.id)}-${p}" data-up="${esc(it.id)}|${p}" ${(upMap[it.id+"|"+p]||it.status==="업로드완료")?"checked":""}> ${p}</label>`).join("")}
-          <button class="btn act" type="button" data-cmd="${esc(it.id)} 업로드 완료 표시해줘 (${esc(it.name)})" ${it.status==="업로드완료"?"disabled":""}>업로드 완료 알리기</button>
+          ${it.status==="업로드완료"?'<span class="lbl">✔ 업로드완료</span>':`<a class="btn primary" href="${REPO}/issues/new?title=${encodeURIComponent("[상태] "+it.id+" 업로드완료")}&body=${encodeURIComponent("Create 버튼을 누르면 제작표에 자동 반영돼요.")}" target="_blank" rel="noopener">제작표에 업로드완료 반영</a>`}
         </div>`:""}
         ${it.memo?`<div class="memo">📝 ${esc(it.memo)}</div>`:""}
       </article>`).join("")}</section>`;
@@ -102,7 +102,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("change",e=>{const u=e.target.dataset.up;if(!u)return;
   upMap[u]=e.target.checked;try{localStorage.setItem("mozzi-up",JSON.stringify(upMap))}catch(err){}
-  const [id]=u.split("|");if(["인스타","유튜브","틱톡"].every(p=>upMap[id+"|"+p]))toast("3곳 모두 체크했어요. [업로드 완료 알리기]를 눌러 Claude에게 붙여넣으면 제작표에도 반영돼요.");});
+  const [id]=u.split("|");if(["인스타","유튜브","틱톡"].every(p=>upMap[id+"|"+p]))toast("3곳 모두 체크했어요. [제작표에 업로드완료 반영] → GitHub에서 Create 한 번이면 자동 반영돼요.");});
 document.addEventListener("change",e=>{const id=e.target.dataset.src;if(!id)return;
   srcMap[id]=e.target.checked;try{localStorage.setItem("mozzi-src",JSON.stringify(srcMap))}catch(err){}
   render();const el=document.getElementById("src-"+id);if(el)el.focus();});
