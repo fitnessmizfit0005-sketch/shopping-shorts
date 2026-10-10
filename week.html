@@ -4,13 +4,20 @@
 <meta name="robots" content="noindex,nofollow">
 <title>쇼핑쇼츠 주간 제작표</title>
 <link rel="stylesheet" href="style.css">
+<style id="hubnav-css">
+.hubnav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.hubnav a{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid #d9d6cf;background:#fff;color:#2a2826;font:600 14px/1.35 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;text-decoration:none;white-space:nowrap}
+.hubnav a:hover{border-color:#8f8b82}
+.hubnav a.on{background:#2a2826;border-color:#2a2826;color:#fff}
+.hubnav a:focus-visible{outline:2px solid #e8bc00;outline-offset:2px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hubnav a{background:#26241f;border-color:#3b3934;color:#ece9e3}:root:not([data-theme="light"]) .hubnav a.on{background:#ece9e3;border-color:#ece9e3;color:#1c1b19}}
+:root[data-theme="dark"] .hubnav a{background:#26241f;border-color:#3b3934;color:#ece9e3}
+:root[data-theme="dark"] .hubnav a.on{background:#ece9e3;border-color:#ece9e3;color:#1c1b19}
+</style>
 </head><body>
 <div class="wrap">
-  <nav class="nav">
-    <a class="sw" href="./">← 주차 목록</a>
-    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/naver-blog-daily/">네이버 블로그</a>
-    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/daangn/">당근 소식</a>
-  </nav>
+  <nav class="hubnav" aria-label="사이트 이동"><a href="https://fitnessmizfit0005-sketch.github.io/naver-blog-daily/">네이버 블로그</a><a href="https://fitnessmizfit0005-sketch.github.io/daangn/">당근 소식</a><a class="on" href="https://fitnessmizfit0005-sketch.github.io/shopping-shorts/" aria-current="page">쇼핑쇼츠</a></nav>
+  <a class="btn" href="./">← 주차 목록</a>
   <h1 id="h">주간 제작표</h1>
   <p class="lead" id="lead"></p>
   <div class="bar"><span id="cnt"></span><div class="meter"><i id="mt" style="width:0"></i></div></div>
