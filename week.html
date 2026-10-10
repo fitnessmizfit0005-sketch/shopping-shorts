@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>쇼핑쇼츠 주간 제작표</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="sw" href="./">← 주차 목록</a>
+    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/naver-blog-daily/">네이버 블로그</a>
+    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/daangn/">당근 소식</a>
+  </nav>
+  <h1 id="h">주간 제작표</h1>
+  <p class="lead" id="lead"></p>
+  <div class="bar"><span id="cnt"></span><div class="meter"><i id="mt" style="width:0"></i></div></div>
+  <div class="tools"><a class="btn primary" id="edit" target="_blank" rel="noopener">✎ GitHub에서 이 주 편집</a></div>
+  <div class="filters" id="filters"></div>
+  <main id="list"></main>
+  <p class="foot">상태·제목·메모를 바꾸려면 위의 편집 버튼 → 연필 아이콘 → 고친 뒤 <b>Commit changes</b>. 1~2분 뒤 이 페이지에 반영돼요.<br>상태 값: 대기 · 소스확보 · 편집완료 · 예약완료 · 업로드완료</p>
+</div>
+<script>
+const REPO="https://github.com/fitnessmizfit0005-sketch/shopping-shorts";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DOW=["일","월","화","수","목","금","토"];
+const w=new URLSearchParams(location.search).get("w")||"";
+let data=null, filter="전체";
+function fmt(d){const x=new Date(d+"T00:00:00");return `${x.getMonth()+1}/${x.getDate()} (${DOW[x.getDay()]})`}
+function nextSlot(items){
+  const now=new Date();
+  return items.findIndex(it=>new Date(`${it.date}T${it.time}:00+09:00`)>=now && it.status!=="업로드완료");
+}
+function render(){
+  const items=data.items, nx=nextSlot(items);
+  const done=items.filter(i=>i.status==="예약완료"||i.status==="업로드완료").length;
+  document.getElementById("cnt").textContent=`${done} / ${items.length} 예약·업로드 완료`;
+  document.getElementById("mt").style.width=(done/items.length*100)+"%";
+  const sts=["전체","대기","소스확보","편집완료","예약완료","업로드완료"];
+  document.getElementById("filters").innerHTML=sts.map(s=>`<button type="button" aria-pressed="${s===filter}" data-f="${s}">${s}</button>`).join("");
+  const days=[...new Set(items.map(i=>i.date))];
+  document.getElementById("list").innerHTML=days.map(d=>{
+    const rows=items.map((it,i)=>({...it,i})).filter(it=>it.date===d&&(filter==="전체"||it.status===filter));
+    if(!rows.length)return "";
+    return `<section class="day"><h3>${fmt(d)}<small>${rows.length}개</small></h3>${rows.map(it=>`
+      <article class="slot${it.i===nx?" now":""}${it.status==="업로드완료"?" done":""}">
+        <div class="head"><span class="time">${esc(it.time)}</span><span class="no">#${String(it.i+1).padStart(2,"0")}</span>
+          <span class="name">${esc(it.name)}</span><span class="cat">${esc(it.category)}</span>
+          <span class="st" data-s="${esc(it.status)}">${it.i===nx?"다음 업로드 · ":""}${esc(it.status)}</span></div>
+        <p class="ttl">${esc(it.title)}</p>
+        <dl>
+          <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
+          <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
+          ${it.product_no?`<dt>상품번호</dt><dd>${esc(it.product_no)}</dd>`:""}
+          <dt>소스 고를 때</dt><dd>${esc(it.source_tip)}</dd>
+          <dt>근거</dt><dd>${esc(it.basis)}</dd>
+        </dl>
+        ${it.memo?`<div class="memo">📝 ${esc(it.memo)}</div>`:""}
+      </article>`).join("")}</section>`;
+  }).join("");
+}
+document.addEventListener("click",e=>{
+  const f=e.target.closest("[data-f]");if(f){filter=f.dataset.f;render();return}
+  const c=e.target.closest(".copy");if(!c)return;
+  const ok=()=>{c.textContent="복사됨";setTimeout(()=>c.textContent="복사",1200)};
+  if(navigator.clipboard)navigator.clipboard.writeText(c.dataset.c).then(ok).catch(()=>{});
+});
+document.getElementById("edit").href=`${REPO}/edit/main/data/${encodeURIComponent(w)}.json`;
+fetch(`data/${encodeURIComponent(w)}.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{
+  try{data=JSON.parse(t)}catch(err){throw "parse"}
+  document.getElementById("h").textContent=`${data.label}`;
+  document.getElementById("lead").textContent=`${data.items.length}개 · 매일 08:00 / 20:00`;
+  document.title=`쇼핑쇼츠 ${data.week}`;
+  render();
+}).catch(err=>{
+  document.getElementById("list").innerHTML=`<div class="err">${err==="parse"?"데이터 파일 문법이 깨졌어요. 방금 고친 줄에서 쉼표(,)나 따옴표(\")가 빠졌는지 확인해 주세요.":"이 주차 데이터를 찾지 못했어요."}</div>`;
+});
+</script>
+</body></html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>모찌코치 쇼핑쇼츠</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/naver-blog-daily/">네이버 블로그</a>
+    <a class="sw" href="https://fitnessmizfit0005-sketch.github.io/daangn/">당근 소식</a>
+    <a class="sw on" href="./">쇼핑쇼츠</a>
+  </nav>
+  <h1>모찌코치 쇼핑쇼츠 제작표</h1>
+  <p class="lead">주차별 업로드 계획 · 매일 08:00 / 20:00</p>
+  <ul class="weeks" id="weeks"><li class="lead">불러오는 중…</li></ul>
+  <section class="box" id="rules"><h2>제작 규칙</h2><ol></ol></section>
+  <div class="tools">
+    <a class="btn" href="https://github.com/fitnessmizfit0005-sketch/shopping-shorts/edit/main/data/rules.json" target="_blank" rel="noopener">✎ 규칙 편집</a>
+    <a class="btn" href="https://github.com/fitnessmizfit0005-sketch/shopping-shorts/tree/main/data" target="_blank" rel="noopener">데이터 폴더</a>
+  </div>
+</div>
+<script>
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+fetch("data/weeks.json",{cache:"no-store"}).then(r=>r.json()).then(ws=>{
+  ws.sort((a,b)=>b.week.localeCompare(a.week));
+  document.getElementById("weeks").innerHTML=ws.map(w=>`<li><a href="week.html?w=${encodeURIComponent(w.week)}"><span>${esc(w.label)}</span><small>${esc(w.count)}개 →</small></a></li>`).join("");
+}).catch(()=>{document.getElementById("weeks").innerHTML='<li class="err">data/weeks.json을 읽지 못했어요. 쉼표나 따옴표가 빠졌는지 확인해 주세요.</li>'});
+fetch("data/rules.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+  document.querySelector("#rules ol").innerHTML=d.rules.map(r=>`<li>${esc(r)}</li>`).join("");
+}).catch(()=>{});
+</script>
+</body></html>
