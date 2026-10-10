@@ -42,6 +42,9 @@ const ORDER=["대기","소스확보","대본완료","편집완료","예약완료
 const STAGE=it=>Math.max(0,ORDER.indexOf(it.status));
 let srcMap={};try{srcMap=JSON.parse(localStorage.getItem("mozzi-src")||"{}")}catch(e){}
 const hasSrc=it=>STAGE(it)>=1||!!srcMap[it.id];
+function upl(u){if(!u||!u.instagram)return "";
+  const box=(t,v)=>`<div class="pk"><div class="pkh">${t} <button class="copy" type="button" data-c="${esc(v)}">복사</button></div><p>${esc(v)}</p></div>`;
+  return `<details class="up"><summary>업로드 패키지 (인스타 · 유튜브 · 틱톡)</summary>${box("인스타 캡션",u.instagram)}${box("유튜브 제목",u.youtube_title)}${box("유튜브 설명",u.youtube_desc)}${box("틱톡 캡션",u.tiktok)}</details>`}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,2600)}
 function render(){
   const items=data.items, nx=nextSlot(items);
@@ -69,7 +72,9 @@ function render(){
           <dt>소스 고를 때</dt><dd>${esc(it.source_tip)}</dd>
           <dt>근거</dt><dd>${esc(it.basis)}</dd>
         </dl>
-        ${it.script?`<details class="script" open><summary>대본 <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></summary><p>${esc(it.script)}</p></details>`:""}
+        ${it.hook_top?`<div class="pk"><div class="pkh">상단 후킹 <button class="copy" type="button" data-c="${esc(it.hook_top)}">복사</button></div><p>${esc(it.hook_top)}</p></div>`:""}
+        ${it.script?`<div class="pk"><div class="pkh">TTS 대본 <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></div><p>${esc(it.script)}</p></div>`:""}
+        ${upl(it.upload)}
         <div class="actions">
           <label class="found"><input type="checkbox" id="src-${esc(it.id)}" data-src="${esc(it.id)}" ${hasSrc(it)?"checked":""}> 소스 찾음</label>
           <button class="btn primary act" type="button" data-cmd="${esc(it.id)} 대본 작성해줘 (${esc(it.name)})" ${hasSrc(it)?"":"disabled"}>대본 작성</button>

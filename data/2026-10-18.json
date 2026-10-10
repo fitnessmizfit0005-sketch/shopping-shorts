@@ -17,7 +17,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261018-2",
@@ -34,7 +37,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261019-1",
@@ -51,7 +57,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261019-2",
@@ -68,7 +77,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261020-1",
@@ -85,7 +97,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261020-2",
@@ -102,7 +117,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261021-1",
@@ -119,7 +137,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261021-2",
@@ -136,7 +157,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261022-1",
@@ -153,7 +177,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261022-2",
@@ -170,7 +197,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261023-1",
@@ -187,7 +217,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261023-2",
@@ -204,7 +237,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261024-1",
@@ -221,7 +257,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     },
     {
       "id": "mozzi-261024-2",
@@ -238,7 +277,10 @@
       "status": "대기",
       "product_no": "",
       "memo": "",
-      "script": ""
+      "script": "",
+      "hook_top": "",
+      "upload": {},
+      "edit_notes": ""
     }
   ]
 }
