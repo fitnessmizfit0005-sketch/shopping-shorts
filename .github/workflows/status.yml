@@ -5,6 +5,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pages: write
 concurrency:
   group: status-update
   cancel-in-progress: false
@@ -26,6 +27,10 @@ jobs:
           git add data
           git diff --cached --quiet || git commit -m "${{ github.event.issue.title }}"
           git push
+      - name: 사이트 다시 만들기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST repos/${{ github.repository }}/pages/builds || true
       - name: 이슈 닫기
         if: always()
         env:
