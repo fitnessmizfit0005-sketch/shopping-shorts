@@ -24,7 +24,8 @@
   <div class="tools"><a class="btn primary" id="edit" target="_blank" rel="noopener">✎ GitHub에서 이 주 편집</a></div>
   <div class="filters" id="filters"></div>
   <main id="list"></main>
-  <p class="foot">상태·제목·메모를 바꾸려면 위의 편집 버튼 → 연필 아이콘 → 고친 뒤 <b>Commit changes</b>. 1~2분 뒤 이 페이지에 반영돼요.<br>상태 값: 대기 · 소스확보 · 편집완료 · 예약완료 · 업로드완료</p>
+  <p class="foot">상태·제목·메모를 바꾸려면 위의 편집 버튼 → 연필 아이콘 → 고친 뒤 <b>Commit changes</b>. 1~2분 뒤 이 페이지에 반영돼요.<br>상태 값: 대기 · 소스확보 · 대본완료 · 편집완료 · 예약완료 · 업로드완료<br>작업 순서: 쿠팡에서 제품 찾기 → 샤오홍슈에서 영상 찾기 → 일련번호로 파일명 바꿔 <b>원본 영상</b> 폴더에 저장 → ☑ 소스 찾음 → [대본 작성] → 캡컷 프로젝트 준비 → [캡컷 편집 시작]. 버튼은 명령을 복사해요. Claude 대화창에 붙여넣으세요.</p>
+  <div class="toast" id="toast" role="status" hidden></div>
 </div>
 <script>
 const REPO="https://github.com/fitnessmizfit0005-sketch/shopping-shorts";
@@ -37,12 +38,17 @@ function nextSlot(items){
   const now=new Date();
   return items.findIndex(it=>new Date(`${it.date}T${it.time}:00+09:00`)>=now && it.status!=="업로드완료");
 }
+const ORDER=["대기","소스확보","대본완료","편집완료","예약완료","업로드완료"];
+const STAGE=it=>Math.max(0,ORDER.indexOf(it.status));
+let srcMap={};try{srcMap=JSON.parse(localStorage.getItem("mozzi-src")||"{}")}catch(e){}
+const hasSrc=it=>STAGE(it)>=1||!!srcMap[it.id];
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,2600)}
 function render(){
   const items=data.items, nx=nextSlot(items);
   const done=items.filter(i=>i.status==="예약완료"||i.status==="업로드완료").length;
   document.getElementById("cnt").textContent=`${done} / ${items.length} 예약·업로드 완료`;
   document.getElementById("mt").style.width=(done/items.length*100)+"%";
-  const sts=["전체","대기","소스확보","편집완료","예약완료","업로드완료"];
+  const sts=["전체","대기","소스확보","대본완료","편집완료","예약완료","업로드완료"];
   document.getElementById("filters").innerHTML=sts.map(s=>`<button type="button" aria-pressed="${s===filter}" data-f="${s}">${s}</button>`).join("");
   const days=[...new Set(items.map(i=>i.date))];
   document.getElementById("list").innerHTML=days.map(d=>{
@@ -55,22 +61,37 @@ function render(){
           <span class="st" data-s="${esc(it.status)}">${it.i===nx?"다음 업로드 · ":""}${esc(it.status)}</span></div>
         <p class="ttl">${esc(it.title)}</p>
         <dl>
+          <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4</span></dd>
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
           <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
+          <dt>샤오홍슈</dt><dd>${(it.xhs||"").split("/").map(k=>k.trim()).filter(Boolean).map(k=>`<span class="zh">${esc(k)}<button class="copy" type="button" data-c="${esc(k)}">복사</button></span>`).join(" ")}</dd>
           ${it.product_no?`<dt>상품번호</dt><dd>${esc(it.product_no)}</dd>`:""}
           <dt>소스 고를 때</dt><dd>${esc(it.source_tip)}</dd>
           <dt>근거</dt><dd>${esc(it.basis)}</dd>
         </dl>
+        ${it.script?`<details class="script" open><summary>대본 <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></summary><p>${esc(it.script)}</p></details>`:""}
+        <div class="actions">
+          <label class="found"><input type="checkbox" id="src-${esc(it.id)}" data-src="${esc(it.id)}" ${hasSrc(it)?"checked":""}> 소스 찾음</label>
+          <button class="btn primary act" type="button" data-cmd="${esc(it.id)} 대본 작성해줘 (${esc(it.name)})" ${hasSrc(it)?"":"disabled"}>대본 작성</button>
+          <button class="btn act" type="button" data-cmd="${esc(it.id)} 캡컷 편집 시작해줘 (${esc(it.name)})" ${(it.script||STAGE(it)>=2)?"":"disabled"}>캡컷 편집 시작</button>
+        </div>
         ${it.memo?`<div class="memo">📝 ${esc(it.memo)}</div>`:""}
       </article>`).join("")}</section>`;
   }).join("");
 }
 document.addEventListener("click",e=>{
   const f=e.target.closest("[data-f]");if(f){filter=f.dataset.f;render();return}
-  const c=e.target.closest(".copy");if(!c)return;
+  const a=e.target.closest(".act");if(a){
+    const done=()=>toast("명령을 복사했어요. Claude 대화창에 붙여넣으세요: "+a.dataset.cmd);
+    if(navigator.clipboard)navigator.clipboard.writeText(a.dataset.cmd).then(done).catch(()=>toast(a.dataset.cmd));else toast(a.dataset.cmd);
+    return}
+  const c=e.target.closest(".copy");if(!c)return;e.preventDefault();
   const ok=()=>{c.textContent="복사됨";setTimeout(()=>c.textContent="복사",1200)};
   if(navigator.clipboard)navigator.clipboard.writeText(c.dataset.c).then(ok).catch(()=>{});
 });
+document.addEventListener("change",e=>{const id=e.target.dataset.src;if(!id)return;
+  srcMap[id]=e.target.checked;try{localStorage.setItem("mozzi-src",JSON.stringify(srcMap))}catch(err){}
+  render();const el=document.getElementById("src-"+id);if(el)el.focus();});
 document.getElementById("edit").href=`${REPO}/edit/main/data/${encodeURIComponent(w)}.json`;
 fetch(`data/${encodeURIComponent(w)}.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{
   try{data=JSON.parse(t)}catch(err){throw "parse"}
