@@ -21,11 +21,13 @@ jobs:
           TITLE: ${{ github.event.issue.title }}
         run: python3 .github/scripts/set_status.py "$TITLE"
       - name: 커밋
+        env:
+          TITLE: ${{ github.event.issue.title }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --cached --quiet || git commit -m "${{ github.event.issue.title }}"
+          git diff --cached --quiet || git commit -m "$TITLE"
           git push
       - name: 사이트 다시 만들기
         env:
@@ -36,4 +38,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           MSG: ${{ steps.upd.outputs.msg }}
-        run: gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }} --comment "${MSG:-처리 실패: 제목 형식을 확인해 주세요}"
+        run: |
+          gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }} --comment "${MSG:-처리 실패 - 제목 형식을 확인해 주세요}"
