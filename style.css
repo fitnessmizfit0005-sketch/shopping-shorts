@@ -32,6 +32,14 @@ a{color:inherit}
 .slot{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;margin-bottom:10px;min-width:0}
 .slot.now{box-shadow:0 0 0 2px var(--accent) inset;border-color:var(--accent)}
 .slot.done{opacity:.6}
+.slot.fold{display:block}
+.slot.fold[open]{opacity:1}
+.slot.fold>summary{list-style:none;cursor:pointer;display:grid;gap:6px;position:relative;padding-right:22px}
+.slot.fold>summary::-webkit-details-marker{display:none}
+.slot.fold>summary::after{content:"▸";position:absolute;right:0;top:2px;color:var(--muted,#999);transition:transform .15s}
+.slot.fold[open]>summary::after{transform:rotate(90deg)}
+.slot.fold:not([open]) .ttl{margin:0}
+.slot.fold .fbody{display:grid;gap:8px;margin-top:8px;min-width:0}
 .head{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .time{font-variant-numeric:tabular-nums;font-weight:700;font-size:12px;background:var(--ink);color:var(--bg);padding:1px 8px;border-radius:4px}
 .no{color:var(--sub);font-size:12px;font-variant-numeric:tabular-nums}
