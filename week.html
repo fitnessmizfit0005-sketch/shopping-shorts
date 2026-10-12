@@ -67,7 +67,7 @@ function render(){
         <p class="ttl">${esc(it.title)}</p>
         ${it.status==="업로드완료"?`</summary><div class="fbody">`:""}
         <dl>
-          <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4</span></dd>
+          <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4 (유튜브·틱톡) · ${esc(it.id)}_IG.mp4 (인스타)</span></dd>
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
           <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
           <dt>샤오홍슈</dt><dd>${(it.xhs||"").split("/").map(k=>k.trim()).filter(Boolean).map(k=>`<span class="zh">${esc(k)}<button class="copy" type="button" data-c="${esc(k)}">복사</button></span>`).join(" ")}</dd>
@@ -76,7 +76,8 @@ function render(){
           <dt>근거</dt><dd>${esc(it.basis)}</dd>
         </dl>
         ${it.hook_top?`<div class="pk"><div class="pkh">상단 후킹 <button class="copy" type="button" data-c="${esc(it.hook_top)}">복사</button></div><p>${esc(it.hook_top)}</p></div>`:""}
-        ${it.script?`<div class="pk"><div class="pkh">TTS 대본 <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></div><p>${esc(it.script)}</p></div>`:""}
+        ${it.script?`<div class="pk"><div class="pkh">TTS 대본 (유튜브·틱톡) <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></div><p>${esc(it.script)}</p></div>`:""}
+        ${it.script_ig?`<div class="pk"><div class="pkh">인스타용 TTS 대본 (댓글 '나도') <button class="copy" type="button" data-c="${esc(it.script_ig)}">복사</button></div><p>${esc(it.script_ig)}</p></div>`:""}
         ${upl(it.upload)}
         <div class="actions">
           <label class="found"><input type="checkbox" id="src-${esc(it.id)}" data-src="${esc(it.id)}" ${hasSrc(it)?"checked":""}> 소스 찾음</label>
