@@ -77,7 +77,8 @@ function render(){
         </dl>
         ${it.hook_top?`<div class="pk"><div class="pkh">상단 후킹 <button class="copy" type="button" data-c="${esc(it.hook_top)}">복사</button></div><p>${esc(it.hook_top)}</p></div>`:""}
         ${it.script?`<div class="pk"><div class="pkh">TTS 대본 (유튜브·틱톡) <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></div><p>${esc(it.script)}</p></div>`:""}
-        ${it.script_ig?`<div class="pk"><div class="pkh">인스타용 TTS 대본 (댓글 '나도') <button class="copy" type="button" data-c="${esc(it.script_ig)}">복사</button></div><p>${esc(it.script_ig)}</p></div>`:""}
+        ${it.script_ig?`<div class="pk"><div class="pkh">인스타용 TTS 대본 (댓글 ${esc(it.dm_keyword?"'"+it.dm_keyword+"'":"키워드")}) <button class="copy" type="button" data-c="${esc(it.script_ig)}">복사</button></div><p>${esc(it.script_ig)}</p></div>`:""}
+        ${it.dm_keyword?`<div class="pk"><div class="pkh">인스타 DM 키워드 <b>${esc(it.dm_keyword)}</b> <button class="copy" type="button" data-c="${esc(it.dm_keyword)}">복사</button></div><p>① 인포크 자동 DM 키워드를 <b>${esc(it.dm_keyword)}</b>로 설정 ② 올리자마자 아래 댓글을 달고 고정</p><div class="pkh">고정 댓글 <button class="copy" type="button" data-c="${esc(it.pin_comment||"")}">복사</button></div><p>${esc(it.pin_comment||"")}</p></div>`:""}
         ${upl(it.upload)}
         <div class="actions">
           <label class="found"><input type="checkbox" id="src-${esc(it.id)}" data-src="${esc(it.id)}" ${hasSrc(it)?"checked":""}> 소스 찾음</label>
