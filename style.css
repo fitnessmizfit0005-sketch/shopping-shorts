@@ -79,3 +79,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-off
 .up summary{font-weight:700;cursor:pointer}
 .up3 .lbl{font-size:13px;font-weight:700;color:var(--sub)}
 .up3 .found{margin-right:0}
+.scenes{margin:0 0 4px;padding-left:18px}
+.scenes li{margin:0 0 6px;line-height:1.5}
+.scenes li b{color:var(--amber);margin-right:4px}
+.scenes + .hint{margin-left:0}

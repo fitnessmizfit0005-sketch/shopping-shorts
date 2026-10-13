@@ -71,6 +71,8 @@ function render(){
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
           <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
           <dt>샤오홍슈</dt><dd>${(it.xhs||"").split("/").map(k=>k.trim()).filter(Boolean).map(k=>`<span class="zh">${esc(k)}<button class="copy" type="button" data-c="${esc(k)}">복사</button></span>`).join(" ")}</dd>
+          ${it.target_item?`<dt>염두에 둔 아이템</dt><dd>${esc(it.target_item)}</dd>`:""}
+          ${(it.scenes||[]).length?`<dt>필수 장면</dt><dd><ul class="scenes">${it.scenes.map(s=>`<li><b>${esc(s.k)}</b> ${esc(s.d)}<br><span class="zh">${esc(s.zh)}<button class="copy" type="button" data-c="${esc(s.zh)}">복사</button></span></li>`).join("")}</ul><span class="hint">소스 하나에 세 장면이 다 없으면 장면별 검색어로 보충 (소스는 많아도 2개)</span></dd>`:""}
           ${it.product_no?`<dt>인포크 등록명</dt><dd>${esc(it.product_no)}<button class="copy" type="button" data-c="${esc(it.product_no)}">복사</button></dd>`:""}
           <dt>소스 고를 때</dt><dd>${esc(it.source_tip)}</dd>
           <dt>근거</dt><dd>${esc(it.basis)}</dd>
