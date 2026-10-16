@@ -67,7 +67,7 @@ function render(){
         <p class="ttl">${esc(it.title)}</p>
         ${it.status==="업로드완료"?`</summary><div class="fbody">`:""}
         <dl>
-          <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4 (유튜브·틱톡) · ${esc(it.id)}_IG.mp4 (인스타)</span></dd>
+          <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4 (인스타·유튜브·틱톡 공통)</span></dd>
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
           <dt>쿠팡 검색어</dt><dd>${esc(it.coupang)}<button class="copy" type="button" data-c="${esc(it.coupang)}">복사</button></dd>
           <dt>샤오홍슈</dt><dd>${(it.xhs||"").split("/").map(k=>k.trim()).filter(Boolean).map(k=>`<span class="zh">${esc(k)}<button class="copy" type="button" data-c="${esc(k)}">복사</button></span>`).join(" ")}</dd>
