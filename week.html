@@ -46,7 +46,7 @@ const openDone=new Set();
 let upMap={};try{upMap=JSON.parse(localStorage.getItem("mozzi-up")||"{}")}catch(e){}
 function upl(u){if(!u||!u.instagram)return "";
   const box=(t,v)=>`<div class="pk"><div class="pkh">${t} <button class="copy" type="button" data-c="${esc(v)}">복사</button></div><p>${esc(v)}</p></div>`;
-  return `<details class="up"><summary>업로드 패키지 (인스타 · 유튜브 · 틱톡)</summary>${box("인스타 캡션",u.instagram)}${box("유튜브 제목",u.youtube_title)}${box("유튜브 설명",u.youtube_desc)}${box("틱톡 캡션",u.tiktok)}</details>`}
+  return `<details class="up"><summary>업로드 패키지 (인스타 · 페북 · 유튜브 · 틱톡)</summary>${box("인스타 캡션",u.instagram)}${u.facebook?box("페북 페이지 캡션 (쿠팡 직링크)",u.facebook):""}${box("유튜브 제목",u.youtube_title)}${box("유튜브 설명",u.youtube_desc)}${box("틱톡 캡션",u.tiktok)}</details>`}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,2600)}
 function render(){
   const items=data.items, nx=nextSlot(items);
