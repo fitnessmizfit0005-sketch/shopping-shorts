@@ -82,7 +82,7 @@ function render(){
         ${it.hook_top?`<div class="pk"><div class="pkh">상단 후킹 <button class="copy" type="button" data-c="${esc(it.hook_top)}">복사</button></div><p>${esc(it.hook_top)}</p></div>`:""}
         ${it.script?`<div class="pk"><div class="pkh">TTS 대본 (유튜브·틱톡) <button class="copy" type="button" data-c="${esc(it.script)}">복사</button></div><p>${esc(it.script)}</p></div>`:""}
         ${it.script_ig?`<div class="pk"><div class="pkh">인스타용 TTS 대본 (댓글 ${esc(it.dm_keyword?"'"+it.dm_keyword+"'":"키워드")}) <button class="copy" type="button" data-c="${esc(it.script_ig)}">복사</button></div><p>${esc(it.script_ig)}</p></div>`:""}
-        ${it.dm_keyword?`<div class="pk"><div class="pkh">인스타 DM 키워드 <b>${esc(it.dm_keyword)}</b> <button class="copy" type="button" data-c="${esc(it.dm_keyword)}">복사</button></div><p>① 인포크 자동 DM 키워드를 <b>${esc(it.dm_keyword)}</b>로 설정 ② 올리자마자 아래 댓글을 달고 고정</p><div class="pkh">고정 댓글 <button class="copy" type="button" data-c="${esc(it.pin_comment||"")}">복사</button></div><p>${esc(it.pin_comment||"")}</p></div>`:""}
+        ${it.dm_keyword?`<div class="pk"><div class="pkh">인스타 DM 키워드 <b>${esc(it.dm_keyword)}</b> <button class="copy" type="button" data-c="${esc(it.dm_keyword)}">복사</button></div><p>① 올리자마자 아래 댓글을 달고 고정 ② 쿠팡 스토어 자동 DM이 이 게시물에 연결됐는지 다른 계정 댓글로 확인</p><div class="pkh">고정 댓글 <button class="copy" type="button" data-c="${esc(it.pin_comment||"")}">복사</button></div><p>${esc(it.pin_comment||"")}</p></div>`:""}
         ${upl(it.upload)}
         <div class="actions">
           <label class="found"><input type="checkbox" id="src-${esc(it.id)}" data-src="${esc(it.id)}" ${hasSrc(it)?"checked":""}> 소스 찾음</label>
@@ -91,7 +91,7 @@ function render(){
         </div>
         ${STAGE(it)>=3?`<div class="actions up3">
           <span class="lbl">업로드</span>
-          ${["인스타","유튜브","틱톡"].map(p=>`<label class="found"><input type="checkbox" id="up-${esc(it.id)}-${p}" data-up="${esc(it.id)}|${p}" ${(upMap[it.id+"|"+p]||it.status==="업로드완료")?"checked":""}> ${p}</label>`).join("")}
+          ${["인스타","틱톡","페북"].map(p=>`<label class="found"><input type="checkbox" id="up-${esc(it.id)}-${p}" data-up="${esc(it.id)}|${p}" ${(upMap[it.id+"|"+p]||it.status==="업로드완료")?"checked":""}> ${p}</label>`).join("")}
           ${it.status==="업로드완료"?'<span class="lbl">✔ 업로드완료</span>':`<a class="btn primary" href="${REPO}/issues/new?title=${encodeURIComponent("[상태] "+it.id+" 업로드완료")}&body=${encodeURIComponent("Create 버튼을 누르면 제작표에 자동 반영돼요.")}" target="_blank" rel="noopener">제작표에 업로드완료 반영</a>`}
         </div>`:""}
         ${it.memo?`<div class="memo">📝 ${esc(it.memo)}</div>`:""}
@@ -111,7 +111,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("toggle",e=>{const d=e.target;if(!d.dataset||!d.dataset.fold)return;d.open?openDone.add(d.dataset.fold):openDone.delete(d.dataset.fold);},true);
 document.addEventListener("change",e=>{const u=e.target.dataset.up;if(!u)return;
   upMap[u]=e.target.checked;try{localStorage.setItem("mozzi-up",JSON.stringify(upMap))}catch(err){}
-  const [id]=u.split("|");if(["인스타","유튜브","틱톡"].every(p=>upMap[id+"|"+p]))toast("3곳 모두 체크했어요. [제작표에 업로드완료 반영] → GitHub에서 Create 한 번이면 자동 반영돼요.");});
+  const [id]=u.split("|");if(["인스타","틱톡","페북"].every(p=>upMap[id+"|"+p]))toast("3곳 모두 체크했어요. [제작표에 업로드완료 반영] → GitHub에서 Create 한 번이면 자동 반영돼요.");});
 document.addEventListener("change",e=>{const id=e.target.dataset.src;if(!id)return;
   srcMap[id]=e.target.checked;try{localStorage.setItem("mozzi-src",JSON.stringify(srcMap))}catch(err){}
   render();const el=document.getElementById("src-"+id);if(el)el.focus();});
