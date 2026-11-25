@@ -62,12 +62,12 @@ function render(){
     const rows=items.map((it,i)=>({...it,i})).filter(it=>it.date===d&&(filter==="전체"||it.status===filter));
     if(!rows.length)return "";
     return `<section class="day"><h3>${fmt(d)}<small>${rows.length}개</small></h3>${rows.map(it=>`
-      ${it.status==="업로드완료"?`<details class="slot done fold" data-fold="${esc(it.id)}"${openDone.has(it.id)?" open":""}><summary>`:`<article class="slot${it.i===nx?" now":""}">`}
+      ${(it.status==="업로드완료"||it.status==="예약완료")?`<details class="slot done fold" data-fold="${esc(it.id)}"${openDone.has(it.id)?" open":""}><summary>`:`<article class="slot${it.i===nx?" now":""}">`}
         <div class="head"><span class="time">${esc(it.time)}</span><span class="no">#${String(it.i+1).padStart(2,"0")}</span>
           <span class="name">${esc(it.name)}</span><span class="cat">${esc(it.category)}</span>
           <span class="st" data-s="${esc(it.status)}">${it.i===nx?"다음 업로드 · ":""}${esc(it.status)}</span></div>
         <p class="ttl">${esc(it.title)}</p>
-        ${it.status==="업로드완료"?`</summary><div class="fbody">`:""}
+        ${(it.status==="업로드완료"||it.status==="예약완료")?`</summary><div class="fbody">`:""}
         <dl>
           <dt>일련번호</dt><dd><b class="sid">${esc(it.id)}</b><button class="copy" type="button" data-c="${esc(it.id)}">복사</button><span class="hint">파일명: ${esc(it.id)}.mp4 (인스타·유튜브·틱톡 공통)</span></dd>
           <dt>첫 줄 캡션</dt><dd>${esc(it.hook)}<button class="copy" type="button" data-c="${esc(it.hook)}">복사</button></dd>
@@ -95,7 +95,7 @@ function render(){
           ${it.status==="업로드완료"?'<span class="lbl">✔ 업로드완료</span>':`<a class="btn primary" href="${REPO}/issues/new?title=${encodeURIComponent("[상태] "+it.id+" 업로드완료")}&body=${encodeURIComponent("Create 버튼을 누르면 제작표에 자동 반영돼요.")}" target="_blank" rel="noopener">제작표에 업로드완료 반영</a>`}
         </div>`:""}
         ${it.memo?`<div class="memo">📝 ${esc(it.memo)}</div>`:""}
-      ${it.status==="업로드완료"?"</div></details>":"</article>"}`).join("")}</section>`;
+      ${(it.status==="업로드완료"||it.status==="예약완료")?"</div></details>":"</article>"}`).join("")}</section>`;
   }).join("");
 }
 document.addEventListener("click",e=>{
